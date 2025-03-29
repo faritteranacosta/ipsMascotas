@@ -15,8 +15,8 @@ public class Administrador extends Usuario {
     private String cargo;
     private List<CategoriaDeServicio> categorias;
 
-    public Administrador(int id, String nombre, String apellido, String correo, String contrasena, boolean confirmacion, String cargo) {
-        super(nombre, apellido, correo, contrasena);
+    public Administrador(String nombre, String apellido, String correo, String contrasena, String cargo) {
+        super(nombre, apellido, correo, contrasena, true);
         this.cargo = cargo;
         this.categorias = new ArrayList<>();
     }

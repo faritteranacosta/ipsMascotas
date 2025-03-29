@@ -5,6 +5,7 @@
 package com.ipsmascotas.repositorio;
 
 import com.ipsmascotas.accesodatos.Bd;
+import com.ipsmascotas.persistencia.Administrador;
 import com.ipsmascotas.persistencia.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,9 +32,9 @@ public class UsuarioRepositorio {
         }
     }
     
-        public void saveUsuario(Usuario usuario){
-        String sql = "INSERT INTO usuarios(nombre, apellido, correo, contrasena)VALUES (?, ?, ?, ?)";
-        
+    public int saveUsuario(Usuario usuario){
+        String sql = "INSERT INTO usuarios(nombre, apellido, correo, contrasena)VALUES (?, ?, ?, ?) RETURNING id";
+        int idUser = 0;
         try {
             Bd condb = new Bd(DB_URL, DB_USER, DB_PASSWORD);
             Connection conn = condb.getConn();
@@ -43,18 +44,48 @@ public class UsuarioRepositorio {
             stmt.setString(2, usuario.getApellido());
             stmt.setString(3, usuario.getCorreo());
             stmt.setString(4, usuario.getContrasena());
-            int filasAfectadas = stmt.executeUpdate();
-            if(filasAfectadas > 0){
-                System.out.println("Usuario registrado");
+            ResultSet rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                idUser = rs.getInt("id");
             }
-            
-            
+      
             stmt.close();
-            conn.close();   
+            conn.close();  
+            return idUser;
+            
         } catch(Exception e) {
             e.printStackTrace();
             System.out.println(" "+e.getMessage());
         }
+        return idUser;
+    }
+        
+    public boolean registrarAdministrador(Administrador admin) {
+        String sql = "INSERT INTO Administradores(ID_Usuario, Cargo) VALUES (?, ?)";
+        
+        try {
+            Bd condb = new Bd(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = condb.getConn();
+            // 1. Insertar el usuario
+            int idUsuario  = saveUsuario(admin);
+            if(idUsuario > 0 ){
+            // 2. Insertar en Administradores
+            PreparedStatement stmtAdmin = conn.prepareStatement(sql);
+            stmtAdmin.setInt(1, idUsuario);
+            stmtAdmin.setString(2, admin.getCargo());
+
+            int filasAfectadas = stmtAdmin.executeUpdate();
+            
+            stmtAdmin.close();
+            conn.close();
+            
+            return filasAfectadas > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     
     public List<Usuario> findAllUsers() {

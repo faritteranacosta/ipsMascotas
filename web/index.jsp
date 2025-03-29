@@ -3,7 +3,6 @@
     Created on : 28/03/2025, 4:05:58 p. m.
     Author     : ESTUDIANTE
 --%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -29,9 +28,9 @@
             padding: 20px;
             width: 100%;
             max-width: 400px;
+            text-align: center;
         }
         h2 {
-            text-align: center;
             color: #333;
         }
         label {
@@ -39,13 +38,14 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: #555;
+            text-align: left;
         }
         input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
@@ -59,17 +59,15 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
         }
         input[type="submit"]:hover {
             background-color: #45a049;
         }
         .btn {
             background-color: #007BFF;
-            text-align: center;
-            display: block;
-            margin-top: 10px;
-            text-decoration: none;
-            text-align: center;
         }
         .btn:hover {
             background-color: #0056b3;
@@ -83,7 +81,7 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>Registrar Usuario Académico</h2>
+        <h2>Registrar Usuario</h2>
         
         <!-- Mostrar mensaje si existe -->
         <% String mensaje = request.getParameter("Mensaje"); %>
@@ -92,8 +90,8 @@
         <% } %>
 
         <form action="Demo" method="post">
-            <label for="nombre">Nombre:</label>
             <input type="hidden" value="registrar" id="ContUser" name="ContUser">
+            <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
             
             <label for="apellido">Apellido:</label>
@@ -109,6 +107,7 @@
         </form>
        
         <a href="login.jsp" class="btn">Ir a iniciar sesión</a>
+        <a href="registrarAdmin.jsp" class="btn" style="background-color: #dc3545;">Registrar Administrador</a>
     </div>
 </body>
 </html>

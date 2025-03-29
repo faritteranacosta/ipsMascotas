@@ -29,8 +29,17 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     
-    
+    <servlet>
+        <servlet-name>RegistroAdmin</servlet-name>
+        <servlet-class>com.ipsmascotas.presentacion.AdministradorControl</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>RegistroAdmin</servlet-name>
+        <url-pattern>/registrarAdministrador</url-pattern>
+    </servlet-mapping>
+
+    
 </web-app>
 
 
